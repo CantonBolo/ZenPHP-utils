@@ -1,5 +1,5 @@
 {
-    "name": "php/utils",
+    "name": "php-utils/utils",
     "description": "php utils",
     "type": "library",
     "license": "MIT",
