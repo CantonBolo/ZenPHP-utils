@@ -1,7 +1,7 @@
 <?php
-namespace php\utils;
+namespace ZenPHP\utils;
 
-class ArrayUtils extends \ArrayObject {
+class ArrayUtils {
     /**
      * Convert a flat array to tree array
      * @param array $elements
@@ -11,7 +11,7 @@ class ArrayUtils extends \ArrayObject {
      * @param string $childrenKey
      * @return array
      */
-    public function tree(array $elements, $indexKey = 'id', $parentId = 0, $parentKey = 'parent', $childrenKey = 'children') {
+    public static function tree(array $elements, $indexKey = 'id', $parentId = 0, $parentKey = 'parent', $childrenKey = 'children') {
         $branch = array();
 
         foreach ($elements as $element) {
@@ -20,10 +20,24 @@ class ArrayUtils extends \ArrayObject {
                 if ($children) {
                     $element[$childrenKey] = $children;
                 }
-                $branch[$element['id']] = $element;
-                unset($elements[$element['id']]);
+                $branch[$element[$indexKey]] = $element;
+                unset($elements[$element[$indexKey]]);
             }
         }
         return $branch;
+    }
+
+    /**
+     * Convert multi-dimensional array to flat
+     * @param array $elements
+     * @return array
+     */
+    public static function flat(array $elements) {
+        $flat = [];
+        $tmp = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($elements));
+        foreach($tmp as $v) {
+            $flat[] = $v;
+        }
+        return $flat;
     }
 }
